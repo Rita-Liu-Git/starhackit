@@ -1,3 +1,4 @@
+
 var _ = require('lodash');
 var raml2html = require('raml2html');
 var fs = require('fs');
@@ -14,7 +15,7 @@ var sources = [
   'dbSchema/raml/db.explorer.raml'
 ];
 
-sources = _.map(sources, function(source){
+sources = _.map(sources, function (source) {
   return path.join(__dirname, '/../src/plugins', source)
 })
 
@@ -22,15 +23,15 @@ var outputPath = 'build/api/v1/doc';
 shell.mkdir('-p', outputPath);
 
 console.log('sources: ', sources);
-Promise.all(_.map(sources, function(source){
+Promise.all(_.map(sources, function (source) {
   //console.log('raml2html in: ', source);
-  return raml2html.render(source, configWithDefaultTemplates).then(function(result) {
+  return raml2html.render(source, configWithDefaultTemplates).then(function (result) {
     //console.log('raml2html result: ', result);
     var outputFile = path.basename(source, '.raml');
     let resultFilename = path.join(outputPath, outputFile + ".html");
     console.log('raml2html writing to file: ', resultFilename);
     fs.writeFileSync(resultFilename, result);
-  }, function(error) {
+  }, function (error) {
     // Output error
     console.error(error);
     throw error;
